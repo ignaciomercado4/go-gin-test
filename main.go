@@ -12,10 +12,11 @@ import (
 
 func main() {
 	r := gin.Default()
+	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "I'm alive",
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+			"route": "/",
 		})
 	})
 
@@ -23,7 +24,7 @@ func main() {
 
 		randomNumber := rand.Intn(1000) + 1
 
-		c.JSON(http.StatusOK, gin.H{
+		c.HTML(http.StatusOK, "randomNumber.tmpl", gin.H{
 			"randomNumber": randomNumber,
 		})
 	})
@@ -37,13 +38,13 @@ func main() {
 			fmt.Println("Unable to convert num param to string")
 		}
 
-		if num > 5 {
+		if num < 5 {
 			isGreaterThanFive = true
 		} else {
 			isGreaterThanFive = false
 		}
 
-		c.JSON(http.StatusOK, gin.H{
+		c.HTML(http.StatusOK, "numParam.tmpl", gin.H{
 			"numParam":          num,
 			"isGreaterThanFive": isGreaterThanFive,
 		})
